@@ -1,0 +1,61 @@
+swagger2
+http://localhost:8080/swagger-ui.html
+
+1.引入依赖
+    <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger2</artifactId>
+        <version>${swagger2.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger-ui</artifactId>
+        <version>${swagger2.version}</version>
+    </dependency>
+
+2.配置config文件
+  @Configuration
+  @EnableSwagger2
+  @ConditionalOnProperty(prefix = "frame.swagger", name = "enabled", havingValue = "true")
+  @ConfigurationProperties(prefix = "frame.swagger")
+  @Setter
+  public class SwaggerConfig{
+      @Bean
+      public Docker docker(){
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                                .groupName(this.groupName)
+                                .apiInfo(apiInfo())
+                                .select()
+                                .apis(RequestHandlerSelectors.basePackage(this.basePackage))
+                                .paths(PathSelectors.any())
+                                .build();
+
+        return docker;
+      }
+
+      private ApiInfo apiInfo(){
+        Contact contact = new Contact(this.authorName, null, this.authorEmail);
+        
+        return new ApiInfoBuilder()
+                    .title(this.title)
+                    .description(this.description)
+                    .termsOfServiceUrl(this.termsOfServiceUrl)
+                    .contact(contact)
+                    .license(this.license)
+                    .licenseUrl(this.licenseUrl)
+                    .version(this.version)
+                    .build();
+      }
+  }
+
+3.yml配置
+frame:
+  swagger: 
+    enabled: true
+    groupName: 测试
+    basePackage: com.frame
+    title: 测试组
+    description: 系统RestFul API
+    version: 1.0
+    authorName: 张三
+    authorEmail: xxx@163.com

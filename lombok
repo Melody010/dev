@@ -1,0 +1,8 @@
+@Accessors(chain = true)
+@Date
+public class User{
+    private Long id;
+    private String name;
+}
+创建对象
+User user = new User().setId(1L).setName("mz");

@@ -1,0 +1,24 @@
+mybatis 升级 Mybatis Plus
+1.代码需要变更
+    IUserService extends IService<UserModel>
+    UserServiceimpl  extends ServiceImpl<UserMapper, UserModel> implements IUserService
+    UserMapper extends BaseMapper<UserModel>
+
+2.配置文件 bean
+    sqlSessionFactory -->  MybatisSqlSessionFactory
+
+3.yml配置
+  mybatis-plus:
+    mapperLocations:***mapper.xml
+    typeAliasesPackage:***model类包名
+    configuration:
+    global-config:
+      db-config:
+
+
+
+mybatis 的简单配置
+mapperLocations:   xml文件位置
+typeAliasesPackage：  实体类包名
+typeHandlersPackage
+configuration.mapUndersourceToCamelCase
